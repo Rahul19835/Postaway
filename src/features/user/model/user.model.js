@@ -1,4 +1,4 @@
-const users = [];
+export const users = [];
 let id = 0;
 class UserSchema {
   constructor(name, email, password) {
