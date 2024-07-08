@@ -17,7 +17,7 @@ export const addUser = (data) => {
 
 export const confirmLogin = (data) => {
   const { email, password } = data;
-  let userResult = {};
+  let userResult = null;
   users.forEach((user) => {
     if (user.email === email && user.password === password) userResult = user;
   });

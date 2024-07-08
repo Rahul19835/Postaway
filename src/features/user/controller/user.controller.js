@@ -12,6 +12,7 @@ export const registerUser = (req, res, next) => {
 
 export const loginUser = (req, res) => {
   let status = confirmLogin(req.body);
+  console.log(status);
   if (status) {
     const JWT_SECRET = 'b19921064ae9078dd573cd2cfa5ffd0f23a0c594264d700e0eae2f320264e3f9';
     const token = jwt.sign({ userId: status.id, userEmail: status.email }, JWT_SECRET, { expiresIn: '1h' });
