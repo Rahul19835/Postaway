@@ -15,10 +15,13 @@ export const addpost = (title, desc, user) => {
     return newPost;
 };
 
-export const updatePost = (id,userId,data) => {
-  const userPost = post.find((p) => p.id == parseInt(id) && p.userId == parseInt(userId));
+export const updatePost = (id,title,desc,userId) => {
+  console.log(id,title,desc,userId);
+  const userPost = post.find(p => p.id == id && p.user == userId);
+  console.log(userPost);
   if (!userPost) return null;
-  Object.assign(userPost, data);
+  userPost.title = title;
+  userPost.desc = desc;
   return userPost;
 }
 export const deletePost = () => {}

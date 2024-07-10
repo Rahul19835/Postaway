@@ -5,6 +5,6 @@ import jwtAuth  from "../../../middlewares/jwtAuth.js";
 const router = express.Router();
 
 router.route("/add").post(jwtAuth, postAdd);
-router.route("/update").post(jwtAuth, postUpdate);
+router.route("/update/:id").put(jwtAuth, postUpdate);
 
 export default router;

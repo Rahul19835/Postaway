@@ -13,8 +13,9 @@ export const postAdd = (req, res, next) => {
 
 export const postUpdate = (req, res, next) => {
   const {title,desc} = req.body;
+  const id = req.params.id;
   const userId = req.user;
-  let updatepost = updatePost(title,desc,userId);
+  let updatepost = updatePost(id,title,desc,userId);
   if (updatepost) {
       res.status(201).send({ status: "success", updatepost });
   } else {
