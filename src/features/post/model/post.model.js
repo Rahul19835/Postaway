@@ -30,3 +30,14 @@ export const removePost = (id,userId) => {
   const removedPost = post.splice(postIndex, 1)[0];
   return removedPost;
 }
+
+export const getPostDetail = (id,userId) => {
+  const postId = Number(id);
+  const postDetil = post.find(p => p.id === postId && p.user === userId);
+  if (!postDetil) return null;
+  return postDetil;
+}
+
+export const getAllPost = () => {
+  return post;
+}
