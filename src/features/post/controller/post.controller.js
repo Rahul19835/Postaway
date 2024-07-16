@@ -28,7 +28,7 @@ export const deletePost = (req, res, next) => {
   const userId = req.user;
   const dpost = removePost(id,userId);
   if (dpost) {
-      res.status(201).send({ status: "success", dpost });
+      res.status(200).send({ status: "success", dpost });
   } else {
     res.status(400).json({ status: "failure", msg: "Post not deleted! Try after sometime." });
   }
@@ -39,7 +39,7 @@ export const detailPost = (req, res, next) => {
   const userId = req.user;
   const postsd = getPostDetail(id,userId);
   if (postsd) {
-      res.status(201).send({ status: "success", postsd });
+      res.status(200).send({ status: "success", postsd });
   } else {
     res.status(400).json({ status: "failure", msg: "Post not found! Try after sometime." });
   }
@@ -48,7 +48,7 @@ export const detailPost = (req, res, next) => {
 export const allPost = (req, res, next) => {
   const post = getAllPost();
   if (post) {
-      res.status(201).send({ status: "success", post });
+      res.status(200).send({ status: "success", post });
   } else {
     res.status(400).json({ status: "failure", msg: "No Post not avaliable! Try after sometime." });
   }
