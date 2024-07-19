@@ -15,8 +15,8 @@ export const addTolike = (userId, postId) => {
   return newLike;
 };
 
-export const removelike = (id) => {
-  const index = likeItems.findIndex(like => like.id === Number(id));
+export const removelike = (userId,postId,id) => {
+  const index = likeItems.findIndex(like => like.id === Number(id) && like.postId === postId && like.userId === userId);
   if (index !== -1) {
     likeItems.splice(index, 1);
     return true;
@@ -24,6 +24,7 @@ export const removelike = (id) => {
   return false;
 };
 
-export const getAlllike = () => {
-  return likeItems;
+export const getAlllike = (id,userId) => {
+  const existingItem = likeItems.find(item => item.postId === Number(id) && item.userId === userId);
+  return existingItem;
 };
