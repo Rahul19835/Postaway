@@ -1,37 +1,38 @@
-import { addTocomment, removecomment, getAllComment, commentItems} from "../model/comment.model.js";
+import { addTocomment, removecomment, getAllComment, commentItems } from "../model/comment.model.js";
+import { CustomError } from "../../../middlewares/errorHandler.js";
 
-export const addComment = (req, res, next) =>{
+export const addComment = (req, res, next) => {
     try {
         const { comment } = req.body;
         const id = req.params.id;
         const userId = req.user;
-        addTocomment(userId,id,comment);
+        addTocomment(userId, id, comment);
         const userCommentItems = commentItems.filter(item => item.id === id);
         res.status(200).json({ success: true, item: userCommentItems });
     } catch (error) {
-        res.status(400).json({ message: 'Something wrong!' });
+        next(new CustomError(400, 'Something went wrong!'));
     }
-}
+};
 
 export const deleteComment = (req, res, next) => {
     try {
         const id = req.params.id;
         const cid = req.params.cid;
         const userId = req.user;
-        removecomment(userId,cid,id);
+        removecomment(userId, cid, id);
         const userCommentItems = commentItems.filter(item => item.id === id);
         res.status(200).json({ success: true, item: userCommentItems });
     } catch (error) {
-        res.status(400).json({ message: 'Something wrong!' });
+        next(new CustomError(400, 'Something went wrong!'));
     }
-}
+};
 
 export const allComment = (req, res, next) => {
-    const id = req.params.id;
-    const comment = getAllComment(id);
-    if (comment) {
+    try {
+        const id = req.params.id;
+        const comment = getAllComment(id);
         res.status(200).send({ status: "success", comment });
-    } else {
-      res.status(400).json({ status: "failure", msg: "No comment not avaliable! Try after sometime." });
+    } catch (error) {
+        next(new CustomError(400, 'No comment available! Try again later.'));
     }
-  };
+};

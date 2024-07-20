@@ -1,56 +1,89 @@
 import { addpost, updatePost, removePost, getPostDetail, getAllPost } from "../model/post.model.js";
+import upload from "../../../middlewares/fileUpload.js";
+import { CustomError } from "../../../middlewares/errorHandler.js";
 
 export const postAdd = (req, res, next) => {
-    const {title,desc} = req.body;
-    const userId = req.user;
-    let post = addpost(title,desc,userId);
-    if (post) {
-        res.status(201).send({ status: "success", post });
-    } else {
-      res.status(400).json({ status: "failure", msg: "Post not added! Try after sometime." });
+  upload(req, res, (err) => {
+    if (err) {
+      return next(new CustomError(400, err.message));
     }
+    const { title, desc } = req.body;
+    const userId = req.user;
+    const imagePath = req.file ? req.file.path : null;
+    try {
+      let post = addpost(title, desc, userId, imagePath);
+      if (post) {
+        res.status(201).send({ status: "success", post });
+      } else {
+        throw new CustomError(400, "Post not added! Try after sometime.");
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
 };
 
 export const postUpdate = (req, res, next) => {
-  const {title,desc} = req.body;
-  const id = req.params.id;
-  const userId = req.user;
-  let updatepost = updatePost(id,title,desc,userId);
-  if (updatepost) {
-      res.status(201).send({ status: "success", updatepost });
-  } else {
-    res.status(400).json({ status: "failure", msg: "Post not updated! Try after sometime." });
-  }
+  upload(req, res, (err) => {
+    if (err) {
+      return next(new CustomError(400, err.message));
+    }
+    const { title, desc } = req.body;
+    const id = req.params.id;
+    const userId = req.user;
+    const imagePath = req.file ? req.file.path : null;
+    try {
+      let updatepost = updatePost(id, title, desc, userId, imagePath);
+      if (updatepost) {
+        res.status(201).send({ status: "success", updatepost });
+      } else {
+        throw new CustomError(400, "Post not updated! Try after sometime.");
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
 };
 
 export const deletePost = (req, res, next) => {
   const id = req.params.id;
   const userId = req.user;
-  const dpost = removePost(id,userId);
-  if (dpost) {
+  try {
+    const dpost = removePost(id, userId);
+    if (dpost) {
       res.status(200).send({ status: "success", dpost });
-  } else {
-    res.status(400).json({ status: "failure", msg: "Post not deleted! Try after sometime." });
+    } else {
+      throw new CustomError(400, "Post not deleted! Try after sometime.");
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
 export const detailPost = (req, res, next) => {
   const id = req.params.id;
   const userId = req.user;
-  const postsd = getPostDetail(id,userId);
-  if (postsd) {
+  try {
+    const postsd = getPostDetail(id, userId);
+    if (postsd) {
       res.status(200).send({ status: "success", postsd });
-  } else {
-    res.status(400).json({ status: "failure", msg: "Post not found! Try after sometime." });
+    } else {
+      throw new CustomError(400, "Post not found! Try after sometime.");
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
 export const allPost = (req, res, next) => {
-  const post = getAllPost();
-  if (post) {
+  try {
+    const post = getAllPost();
+    if (post) {
       res.status(200).send({ status: "success", post });
-  } else {
-    res.status(400).json({ status: "failure", msg: "No Post not avaliable! Try after sometime." });
+    } else {
+      throw new CustomError(400, "No Post available! Try after sometime.");
+    }
+  } catch (error) {
+    next(error);
   }
 };
-

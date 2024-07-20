@@ -1,7 +1,6 @@
 import winston from "winston";
 
 export const logger = winston.createLogger({
-  // Write your code here
   level: 'error',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ [(India Standard Time)]' }),

@@ -1,5 +1,5 @@
 import { logger } from "./logger.middleware.js";
-export class customErrorHandler extends Error {
+export class CustomError extends Error {
   constructor(statusCode, errMessage) {
     super(errMessage);
     this.statusCode = statusCode;
